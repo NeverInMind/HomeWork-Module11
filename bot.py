@@ -1,10 +1,4 @@
 from collections import UserDict
-
-class AddressBook(UserDict):
-    def add_record(self):
-        self.data.update({
-            Record.name.value: Record.phone.value
-        })
     
 class Record():
     def add(*args):
@@ -19,12 +13,13 @@ class Record():
         rec = AddressBook.data.get(name)
         if rec:
             rec['phone'] = phone
-        return AddressBook.add_record(rec)
+            return rec
 
 
-    def delete(self):
-        self.name = ''
-        pass
+    def delete(*args):
+        name = args[0]
+        rec = AddressBook.data.get(name)
+        del rec
 
 class Field():
     pass
@@ -34,6 +29,10 @@ class Name(Field):
 
 class Phone(Field):
     pass
+
+class AddressBook(UserDict):
+    def add_record(self, rec:Record):
+        self.data[rec.value.name] = rec
 
 MEMORY = {}
 
