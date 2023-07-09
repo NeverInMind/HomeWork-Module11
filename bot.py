@@ -1,21 +1,26 @@
-class UserDict():
-    pass
+from collections import UserDict
 
 class AddressBook(UserDict):
-    pass
-
+    def add_record(self):
+        self.data.update({
+            Record.name.value: Record.phone.value
+        })
+    
 class Record():
-    def __init__(self) -> None:
-        self.name = ''
-        self.phone = []
+    def add(*args):
+        name = Name(args[0])
+        phone = Phone(args[1])
+        rec = Record(name, phone)
+        return AddressBook.add_record(rec)
 
-    def add(self, name):
-        self.name = name
-        pass
+    def edit(*args):
+        name = args[0]
+        phone = args[1]
+        rec = AddressBook.data.get(name)
+        if rec:
+            rec['phone'] = phone
+        return AddressBook.add_record(rec)
 
-    def edit(self, name):
-        self.name = name
-        pass
 
     def delete(self):
         self.name = ''
