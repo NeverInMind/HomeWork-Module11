@@ -26,7 +26,7 @@ class AddressBook(UserDict):
 
 ab = AddressBook()
 name = Name("Bill")
-phone = Phone("123456",'1232355')
+phone = Phone("123456")
 rec = Record(name, phone)
 ab.add_record(rec)
 print(ab)
