@@ -1,15 +1,20 @@
 from collections import UserDict
 
-class Field():
-    pass
+class Field:
+    def __init__(self, value) -> None:
+        self.value = value
+    
+    def __str__(self) -> str:
+        return self.value
 
-class Name():
-    def __init__(self, name) -> None:
-        self.name = name
 
-class Phone():
-    def __init__(self, phone) -> None:
-        self.phone = phone
+class Name(Field):
+    ...
+
+
+class Phone(Field):
+    ...
+    
     
 class Record():
     def __init__(self, name:Name, phone:Phone=None) -> None:
@@ -25,7 +30,10 @@ class Record():
 class AddressBook(UserDict):
     
     def add_record(self, rec:Record):
-        self.data[rec.name] = rec.phone
+        self.data[rec.name] = rec
+    
+    def __str__(self) -> str:
+        return "\n".join(str(r) for r in self.values())
 
 
 ab = AddressBook()
