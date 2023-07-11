@@ -12,12 +12,16 @@ class Phone():
         self.phone = phone
     
 class Record():
-    def __init__(self, *args) -> None:
-        self.name = args[0].name
-        self.phone = args[1].phone
+    def __init__(self, name:Name, phone:Phone=None) -> None:
+        self.name = name
+        self.phones = []
+        if phone:
+            self.phones.append(phone)
+    
+    def __str__(self) -> str:
+        return f"{self.name} : {', '.join(str(p) for p in self.phones)}"
 
         
-
 class AddressBook(UserDict):
     
     def add_record(self, rec:Record):
@@ -27,6 +31,9 @@ class AddressBook(UserDict):
 ab = AddressBook()
 name = Name("Bill")
 phone = Phone("123456")
+phone2 = Phone('31452')
+phone3 = Phone('45641')
 rec = Record(name, phone)
-ab.add_record(rec)
-print(ab)
+rec.add_phone(phone2)
+rec.edit_phone(phone3, phone2)
+print(rec)
