@@ -1,4 +1,8 @@
-MEMORY = {}
+from types import GeneratorType
+
+from classes import AddressBook, Name, Phone, Record
+
+MEMORY = AddressBook()
 
 
 def decorator_function(func):
@@ -12,6 +16,8 @@ def decorator_function(func):
             print('Not enough arguments')
         except UnboundLocalError:
             print('Invalid command')
+        except ValueError as e:
+            return e
 
     return wrapper
 
@@ -25,11 +31,16 @@ def hello(val):
 @decorator_function
 def add(val):
     str_to_obj = val.split(' ')
-    if str_to_obj[0] in MEMORY:
-        return 'Name already in Contacts'
-    test_obj = {str_to_obj[0]: str_to_obj[1]}
-    MEMORY.update(test_obj)
-    return 'New contact added'
+    # if str_to_obj[0] in MEMORY:
+    #     return 'Name already in Contacts'
+    name = Name(str_to_obj[0])
+    phone = Phone(str_to_obj[1])
+    rec = MEMORY.get(name.value)
+    if rec:
+        return rec.add_phone(phone)
+        # test_obj = {str_to_obj[0]: str_to_obj[1]}
+    return MEMORY.add_record(Record(name, phone))
+    # return 'New contact added'
 
 
 @decorator_function
@@ -40,8 +51,13 @@ def change(val):
 
 
 @decorator_function
-def show_all(self):
-    return MEMORY
+def show_all(val):
+    try:
+        rec_per_page = int(val)
+        for page in MEMORY.iterator(rec_per_page):
+            yield page
+    except ValueError:
+        yield MEMORY
 
 
 @decorator_function
@@ -77,17 +93,28 @@ def handler(operator):
     return COMMANDS[operator]
 
 
+def parser(user_input):
+    for command, kw in COMMANDS_KEYWORDS.items():
+        for w in kw:
+            if user_input.startswith(w):
+                result = handler(command)
+                user_str = user_input.replace(f'{w} ', '').strip()
+                return result, user_str
+    return None, None
+
+
 def main():
     checker = True
     while checker is True:
         inp = input('Enter command: ')
-        for command, kw in COMMANDS_KEYWORDS.items():
-            for w in kw:
-                if inp.startswith(w):
-                    result = handler(command)
-                    user_str = inp.replace(f'{w} ', '').strip()
+        result, user_str = parser(inp)
         res = result(user_str)
-        print(res)
+        if isinstance(res, GeneratorType):
+            for r in res:
+                print(r)
+                input("Press any key to continue")
+        else:
+            print(res)
         if res == 'Good bye!':
             checker = False
 
