@@ -19,7 +19,7 @@ class Phone(Field):
         ...
 
     @value.setter
-    def set_value(self, value):
+    def value(self, value):
         if not re.match(r'^\+38\d{10}$', value):
             raise ValueError("Phone number should be in the format +380XXXXXXXXX")
         self.__value = value
@@ -30,7 +30,7 @@ class Birthday(Field):
         ...
         
     @value.setter
-    def set_value(self, value):
+    def value(self, value):
         self.__value = datetime.strptime(value, '%d-%m-%Y').date()
        
 class Record():
