@@ -36,7 +36,6 @@ class Record():
             self.bthday = birthday
     
     def __str__(self) -> str:
-<<<<<<< HEAD
         return f"{self.name} : {', '.join(str(p) for p in self.phones)}, {self.bthday}"
     
 
@@ -60,10 +59,6 @@ class Record():
         if today > brthday:
             brthday = (brthday.year + 1, brthday.month, brthday.day)
         return (brthday - today).days
-=======
-        return f"{self.name} : {', '.join(str(p) for p in self.phones)}"
-
->>>>>>> parent of aeee8fa (Update class.py)
         
 class AddressBook(UserDict):
     
@@ -79,12 +74,6 @@ name = Name("Bill")
 phone = Phone("123456")
 phone2 = Phone('31452')
 phone3 = Phone('45641')
-<<<<<<< HEAD
 brthday = Birthday(datetime(2023, 6, 30))
 rec = Record(name, phone, brthday)
-=======
-rec = Record(name, phone)
-rec.add_phone(phone2)
-rec.edit_phone(phone3, phone2)
->>>>>>> parent of aeee8fa (Update class.py)
 print(rec)
