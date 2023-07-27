@@ -39,12 +39,13 @@ class Record():
         self.phones = []
         if phone:
             self.phones.append(phone)
-        if birthday:
-            self.bthday = birthday
+        self.bthday = birthday
     
     def __str__(self) -> str:
         return f"{self.name} : {', '.join(str(p) for p in self.phones)}, {self.bthday}"
     
+    def __repr__(self) -> str:
+        return str(self)
 
     def add_phone(self, phone:Phone=None):
         self.phones.append(phone)
@@ -71,16 +72,22 @@ class AddressBook(UserDict):
     
     def add_record(self, rec:Record):
         self.data[rec.name] = rec
-    
+        
+    def iterator(self, n=2):
+        records = 0
+        while records < len(self):
+            yield list(self.values())[records: records + n]
+            records += n
+            
     def __str__(self) -> str:
         return "\n".join(str(r) for r in self.values())
 
-
-ab = AddressBook()
-name = Name("Bill")
-phone = Phone("123456")
-phone2 = Phone('31452')
-phone3 = Phone('45641')
-brthday = Birthday(datetime(2023, 6, 30))
-rec = Record(name, phone, brthday)
-print(rec)
+if __name__ == "__main__":
+    ab = AddressBook()
+    name = Name("Bill")
+    phone = Phone("123456")
+    phone2 = Phone('31452')
+    phone3 = Phone('45641')
+    brthday = Birthday(datetime(2023, 6, 30))
+    rec = Record(name, phone, brthday)
+    print(rec)
