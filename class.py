@@ -4,28 +4,35 @@ import re
 
 class Field:
     def __init__(self, value) -> None:
+        self.__value = None
         self.value = value
     
     def __str__(self) -> str:
         return self.value
 
-
 class Name(Field):
     ...
 
 class Phone(Field):
-    @Field.value.setter
+    @property
+    def value(self):
+        ...
+
+    @value.setter
     def set_value(self, value):
         if not re.match(r'^\+38\d{10}$', value):
             raise ValueError("Phone number should be in the format +380XXXXXXXXX")
-        self.value = value
+        self.__value = value
 
 class Birthday(Field):
-    @Field.value.setter
-    def check_value(self, value):
-        self.value = datetime.strptime(value, '%d-%m-%Y').date()
-    
-    
+    @property
+    def value(self):
+        ...
+        
+    @value.setter
+    def set_value(self, value):
+        self.__value = datetime.strptime(value, '%d-%m-%Y').date()
+       
 class Record():
     def __init__(self, name:Name, phone:Phone=None, birthday:Birthday=None) -> None:
         self.name = name
