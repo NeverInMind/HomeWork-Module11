@@ -16,7 +16,7 @@ class Name(Field):
 class Phone(Field):
     @property
     def value(self):
-        ...
+        return self.__value
 
     @value.setter
     def value(self, value):
@@ -27,7 +27,7 @@ class Phone(Field):
 class Birthday(Field):
     @property
     def value(self):
-        ...
+        return self.__value
         
     @value.setter
     def value(self, value):
