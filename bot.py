@@ -1,9 +1,11 @@
 from types import GeneratorType
-
+import pickle
 from classes import AddressBook, Name, Phone, Record
 
+file_name = 'adressbook.bin'
 MEMORY = AddressBook()
-
+with open(file_name, 'rb') as f:
+    MEMORY = pickle.load(f)
 
 def decorator_function(func):
     def wrapper(val):
@@ -109,6 +111,8 @@ def main():
         inp = input('Enter command: ')
         result, user_str = parser(inp)
         res = result(user_str)
+        with open(file_name, 'wb') as f:
+            pickle.dump(MEMORY, f)
         if isinstance(res, GeneratorType):
             for r in res:
                 print(r)
